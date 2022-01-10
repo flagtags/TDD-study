@@ -12,8 +12,8 @@ test('달러의 동등비교', () => {
 test('달러의 곱셈', () => {
   const dollar = new Dollar(5);
   let product = dollar.times(2);
-  expect(product).toStrictEqual(new Dollar(10));
+  expect(product.amount).toBe(10);
 
   product = dollar.times(3);
-  expect(product).toStrictEqual(new Dollar(15));
+  expect(product.amount).toBe(15);
 });

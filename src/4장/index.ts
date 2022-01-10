@@ -10,7 +10,7 @@ class Dollar {
   }
 
   equals(another: Dollar) {
-    return true;
+    return this.amount === another.amount;
   }
 }
 
