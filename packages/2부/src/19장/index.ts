@@ -5,13 +5,19 @@ export class TestCase {
   }
 
   run() {
+    this.setup();
     this[this.name]();
+  }
+
+  setup() {
+    return null;
   }
 }
 
 export class WasRun extends TestCase {
   name;
   wasRun;
+  wasSetup;
   constructor(name: string) {
     super(name);
     this.wasRun = null;
@@ -19,5 +25,10 @@ export class WasRun extends TestCase {
 
   testMethod() {
     this.wasRun = 1;
+  }
+
+  setup() {
+    this.wasSetup = 1;
+    this.wasRun = null;
   }
 }

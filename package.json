@@ -8,6 +8,6 @@
   },
   "scripts": {
     "chapter1_test": "yarn workspace chapter1 test",
-    "chapter2_test": "yarn workspace chapter2 test"
+    "chapter2_test": "yarn workspace chapter2 dev"
   }
 }
