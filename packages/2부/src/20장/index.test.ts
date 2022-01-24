@@ -1,5 +1,5 @@
-// test setup 호출하기
-// 여러 테스트들이 서로 영향을 끼치지 않도록 하기 위해 setup 메소드 생성
+// 나중에 tearDown() 호출하기
+// WasRun 에 로그 문자열 남기기
 
 import { WasRun, TestCase } from './index';
 import assert from 'assert';
@@ -11,24 +11,15 @@ export class TestCaseTest extends TestCase {
     super(name);
   }
 
-  setup() {
+  testTemplateMethod() {
     this.test = new WasRun('testMethod');
-  }
-
-  testSetup() {
     this.test.run();
-    assert(this.test.wasSetup);
-  }
-
-  testRunning() {
-    this.test.run();
-    assert(this.test.wasRun);
+    assert(this.test.log === "setUp testMethod tearDown ");
   }
 }
 
 const main = () => {
-  new TestCaseTest('testRunning').run();
-  new TestCaseTest('testSetup').run();
+  new TestCaseTest('testTemplateMethod').run();
 };
 
 export default main;
