@@ -10,7 +10,7 @@ export class TestCaseTest extends TestCase {
   constructor(name: string) {
     super(name);
   }
-
+//testpush
   testTemplateMethod() {
     this.test = new WasRun('testMethod');
     this.test.run();
