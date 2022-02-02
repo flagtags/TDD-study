@@ -9,8 +9,13 @@ export class TestCase {
 
     try {
       this.setup();
-      this[this.name](result);
+    } catch (error) {
+      result.setupFailed();
+      return result;
+    }
 
+    try {
+      this[this.name](result);
     } catch (e) {
       result.testFailed();
     } finally {
@@ -18,7 +23,6 @@ export class TestCase {
 
       return result;
     }
-
   }
 
   setup() {
@@ -33,14 +37,19 @@ export class TestCase {
 export class TestResult {
   runCount: number;
   failureCount: number;
+  setupFailCount: number;
 
   constructor() {
     this.runCount = 0;
     this.failureCount = 0;
-
+    this.setupFailCount = 0;
   }
 
-  testStarted(){
+  setupFailed() {
+    this.setupFailCount += 1;
+  }
+
+  testStarted() {
     this.runCount += 1;
   }
 
@@ -48,8 +57,10 @@ export class TestResult {
     this.failureCount += 1;
   }
 
-  summary(){
-    return `${this.runCount} run ${this.failureCount} failed`
+  summary() {
+    return `${this.runCount} run ${
+      this.setupFailCount > 0 ? `${this.setupFailCount} setup error occured` : `${this.failureCount} failed`
+    }`;
   }
 }
 
@@ -66,20 +77,20 @@ export class WasRun extends TestCase {
 
   testMethod() {
     this.wasRun = 1;
-    this.log = this.log + "testMethod ";
+    this.log = this.log + 'testMethod ';
   }
 
-  testBrokenMethod(){
+  testBrokenMethod() {
     throw new Error('broken test');
   }
   setup() {
     this.wasSetup = 1;
-    this.log = "setUp "
+    this.log = 'setUp ';
     this.wasRun = null;
   }
 
-  tearDown(){
-    this.log = this.log + "tearDown "
+  tearDown() {
+    this.log = this.log + 'tearDown ';
   }
 }
 
@@ -90,16 +101,15 @@ export class TestSuite {
     this.tests = [];
   }
 
-  add(test: TestCase){
+  add(test: TestCase) {
     this.tests.push(test);
   }
 
-  run(result: TestResult){
-    this.tests.forEach((test:TestCase)=>{
+  run(result: TestResult) {
+    this.tests.forEach((test: TestCase) => {
       test.run(result);
-    })
+    });
 
     return result;
   }
-
 }
