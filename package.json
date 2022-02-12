@@ -8,6 +8,8 @@
   },
   "scripts": {
     "chapter1_test": "yarn workspace chapter1 test",
-    "chapter2_test": "yarn workspace chapter2 dev"
+    "chapter2_test": "yarn workspace chapter2 dev",
+    "nemo_test": "yarn workspace nemonemologic test",
+    "nemo_dev": "yarn workspace nemonemologic start"
   }
 }
