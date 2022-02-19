@@ -7,3 +7,16 @@ export function splitSum(array: CELL_SOLUTION_STATE[]):number[] {
     return [...acc,cellState.length];
   }, []);
 }
+
+export default function getHints(logic:ILogicSolution): IHint {
+  const rowsOfLogic = logic;
+  const columnsOfLogic = _.zip(...logic) as ILogicSolution;
+
+  const rowHints = rowsOfLogic.map((row: CELL_SOLUTION_STATE[]) => splitSum(row))
+  const columnHints = columnsOfLogic.map((column: CELL_SOLUTION_STATE[]) => splitSum(column))
+
+  return {
+    row: rowHints,
+    column: columnHints
+  }
+}
