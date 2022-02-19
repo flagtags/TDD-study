@@ -1,12 +1,21 @@
 import React from 'react';
-import logo from './logo.svg';
+import getLogic from './api/getLogic';
+import Header from './components/Header'
 import './App.css';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+`
 
 function App() {
-  return (
-    <div className="nemonemologic">
+  const logic = getLogic()
 
-    </div>
+  return (
+    <Container className="nemonemologic">
+      <Header title={logic.title}/>
+    </Container>
   );
 }
 
