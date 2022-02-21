@@ -14,8 +14,15 @@ const Image = styled.img`
   height: 100%;
 `;
 
-export default function Cell({ state }: { state: CELL_STATE }) {
-
+export default function Cell({
+  state,
+  onClick,
+  onContextMenu,
+}: {
+  state: CELL_STATE;
+  onClick: () => void;
+  onContextMenu: () => void;
+}) {
   const FilledImage = <Image alt={'fill'} src={'/square.png'} />;
   const BlankImage = <div className={'blank'} />;
   const NothingImage = <Image alt={'nothing'} src={'/close.png'} />;
@@ -26,8 +33,10 @@ export default function Cell({ state }: { state: CELL_STATE }) {
     [CELL_STATE.NOTHING]: NothingImage,
   };
 
+  console.log(state);
+
   return (
-    <Button className={'cell_button'}>
+    <Button className={'cell_button'} onClick={onClick} onContextMenu={onContextMenu}>
       {CellImage[state]}
     </Button>
   );
