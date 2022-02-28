@@ -1,23 +1,8 @@
 import { CELL_STATE } from '../type';
 import { render, screen } from '@testing-library/react';
+import { testFillState, testBlankstate, testNothingState} from '../../LogicPaper/index.test';
 import userEvent from '@testing-library/user-event';
 import Cell from './index';
-
-const testFillState = (container: HTMLElement) => {
-  expect(container.getElementsByClassName('blank').length).toBe(0);
-  expect(container.getElementsByTagName('img')[0]).toHaveAttribute('alt', 'fill');
-  expect(container.getElementsByTagName('img')[0]).not.toHaveAttribute('alt', 'nothing');
-};
-const testBlankstate = (container: HTMLElement) => {
-  expect(container.getElementsByClassName('blank').length).toBe(1);
-  expect(container.getElementsByTagName('img').length).toBe(0);
-  expect(container.getElementsByTagName('img').length).toBe(0);
-};
-const testNothingState = (container: HTMLElement) => {
-  expect(container.getElementsByClassName('blank').length).toBe(0);
-  expect(container.getElementsByTagName('img')[0]).not.toHaveAttribute('alt', 'fill');
-  expect(container.getElementsByTagName('img')[0]).toHaveAttribute('alt', 'nothing');
-};
 
 describe('Cell 컴포넌트가 state 따라 보여지는가.', () => {
   test('fill', () => {
