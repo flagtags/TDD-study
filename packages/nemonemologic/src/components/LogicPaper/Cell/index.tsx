@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import { CELL_STATE } from '../type';
 
 const Button = styled.button`
-  border: 1px solid black;
+  border: none;
   background-color: white;
-  width: 25px;
-  height: 25px;
+  width: 100%;
+  height: 100%;
   padding: 0;
 `;
 
@@ -32,8 +32,6 @@ export default function Cell({
     [CELL_STATE.BLANK]: BlankImage,
     [CELL_STATE.NOTHING]: NothingImage,
   };
-
-  console.log(state);
 
   return (
     <Button className={'cell_button'} onClick={onClick} onContextMenu={onContextMenu}>
