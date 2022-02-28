@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CELL_STATE } from './components/Logic/type';
-import Cell from './components/Logic/Cell';
+import { CELL_STATE } from './components/LogicPaper/type';
+import Cell from './components/LogicPaper/Cell';
 import Header from './components/Header';
 import getLogic from './api/getLogic';
 import './App.css';
+import LogicPaper from './components/LogicPaper';
 
 const Container = styled.div`
   display: flex;
@@ -15,12 +16,12 @@ function App() {
   const logic = getLogic();
 
   return (
-    <Container className='nemonemologic'>
+    <Container className="nemonemologic">
       <Header title={logic.title} />
-
-      <Cell state={CELL_STATE.FILL} />
+      <LogicPaper rowLength={10} colLength={10} />
+      {/* <Cell state={CELL_STATE.FILL} />
       <Cell state={CELL_STATE.BLANK} />
-      <Cell state={CELL_STATE.NOTHING} />
+      <Cell state={CELL_STATE.NOTHING} /> */}
     </Container>
   );
 }
