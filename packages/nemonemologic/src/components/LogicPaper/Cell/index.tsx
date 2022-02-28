@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { CELL_STATE } from '../type';
+import React from 'react';
 
 const Button = styled.button`
   border: none;
@@ -21,7 +22,7 @@ export default function Cell({
 }: {
   state: CELL_STATE;
   onClick: () => void;
-  onContextMenu: () => void;
+  onContextMenu: (e: React.MouseEvent) => void;
 }) {
   const FilledImage = <Image alt={'fill'} src={'/square.png'} />;
   const BlankImage = <div className={'blank'} />;
