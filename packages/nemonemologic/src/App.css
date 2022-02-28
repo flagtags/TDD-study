@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-collapse: collapse;
+  border-spacing: 0px;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
