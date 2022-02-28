@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import LogicPaper from '.';
 import { CELL_STATE } from './type';
+import userEvent from '@testing-library/user-event';
+
 export const testFillState = (container: HTMLElement) => {
   expect(container.getElementsByClassName('blank').length).toBe(0);
   expect(container.getElementsByTagName('img')[0]).toHaveAttribute('alt', 'fill');
@@ -35,5 +37,69 @@ describe('로직 페이퍼 렌더링', () => {
     expect(screen.getAllByRole('row')).toHaveLength(rowLength);
     expect(screen.getAllByRole('cell')).toHaveLength(rowLength * colLength);
     expect(screen.queryAllByRole('img')).toHaveLength(0);
+  });
+});
+
+describe('로직 페이퍼 클릭 처리', () => {
+  describe('fill 일 때', () => {
+    let firstCell: HTMLElement;
+
+    beforeEach(() => {
+      render(<LogicPaper rowLength={3} colLength={3} />);
+      firstCell = screen.getAllByRole('button')[0];
+      userEvent.click(firstCell);
+      testFillState(firstCell);
+    });
+
+    test('좌클릭 처리', () => {
+      userEvent.click(firstCell);
+      testBlankstate(firstCell);
+    });
+
+    test('우클릭 처리', () => {
+      userEvent.click(firstCell, { button: 2 });
+      testNothingState(firstCell);
+    });
+  });
+
+  describe('blank 일 때', () => {
+    let firstCell: HTMLElement;
+
+    beforeEach(() => {
+      render(<LogicPaper rowLength={3} colLength={3} />);
+      firstCell = screen.getAllByRole('button')[0];
+      testBlankstate(firstCell);
+    });
+
+    test('좌클릭 처리', () => {
+      userEvent.click(firstCell);
+      testFillState(firstCell);
+    });
+
+    test('우클릭 처리', () => {
+      userEvent.click(firstCell, { button: 2 });
+      testNothingState(firstCell);
+    });
+  });
+
+  describe('nothing 일 때', () => {
+    let firstCell: HTMLElement;
+
+    beforeEach(() => {
+      render(<LogicPaper rowLength={3} colLength={3} />);
+      firstCell = screen.getAllByRole('button')[0];
+      userEvent.click(firstCell, { button: 2 });
+      testNothingState(firstCell);
+    });
+
+    test('좌클릭 처리', () => {
+      userEvent.click(firstCell);
+      testFillState(firstCell);
+    });
+
+    test('우클릭 처리', () => {
+      userEvent.click(firstCell, { button: 2 });
+      testBlankstate(firstCell);
+    });
   });
 });
