@@ -3,6 +3,7 @@ import { CELL_STATE } from '../type';
 import React from 'react';
 
 const Button = styled.button`
+  display: block;
   border: none;
   background-color: white;
   width: 100%;
@@ -11,6 +12,13 @@ const Button = styled.button`
 `;
 
 const Image = styled.img`
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+`;
+
+const Blank = styled.div`
   width: 100%;
   height: 100%;
 `;
@@ -25,7 +33,7 @@ export default function Cell({
   onContextMenu: (e: React.MouseEvent) => void;
 }) {
   const FilledImage = <Image alt={'fill'} src={'/square.png'} />;
-  const BlankImage = <div className={'blank'} />;
+  const BlankImage = <Blank className={'blank'} />;
   const NothingImage = <Image alt={'nothing'} src={'/close.png'} />;
 
   const CellImage = {

@@ -8,10 +8,11 @@ const Td = styled.td`
   height: 30px;
   width: 30px;
   border: 2px solid black;
+  text-align: center;
+  vertical-align: middle;
 `;
 
 export default function LogicPaper({ rowLength, colLength }: { rowLength: number; colLength: number }) {
-
   const cellStateReducer = (state: CELL_STATE[][], action: any): any => {
     const tempCellStates = _.cloneDeep(state);
 
@@ -30,7 +31,9 @@ export default function LogicPaper({ rowLength, colLength }: { rowLength: number
 
   const [cellStates, dispatch] = useReducer(
     cellStateReducer,
-    Array(rowLength).fill(0).map(()=>Array(colLength).fill(CELL_STATE.BLANK))
+    Array(rowLength)
+      .fill(0)
+      .map(() => Array(colLength).fill(CELL_STATE.BLANK)),
   );
 
   const onClick = (rowIndex: number, colIndex: number) => {
@@ -54,23 +57,23 @@ export default function LogicPaper({ rowLength, colLength }: { rowLength: number
   return (
     <table>
       <tbody>
-      {Array(rowLength)
-        .fill(0)
-        .map((_, rowIndex) => (
-          <tr key={rowIndex}>
-            {Array(colLength)
-              .fill(0)
-              .map((_, colIndex) => (
-                <Td key={colIndex}>
-                  <Cell
-                    state={cellStates[rowIndex][colIndex]}
-                    onClick={() => onClick(rowIndex, colIndex)}
-                    onContextMenu={(e: React.MouseEvent) => onContextMenu(e, rowIndex, colIndex)}
-                  />
-                </Td>
-              ))}
-          </tr>
-        ))}
+        {Array(rowLength)
+          .fill(0)
+          .map((_, rowIndex) => (
+            <tr key={rowIndex}>
+              {Array(colLength)
+                .fill(0)
+                .map((_, colIndex) => (
+                  <Td key={colIndex}>
+                    <Cell
+                      state={cellStates[rowIndex][colIndex]}
+                      onClick={() => onClick(rowIndex, colIndex)}
+                      onContextMenu={(e: React.MouseEvent) => onContextMenu(e, rowIndex, colIndex)}
+                    />
+                  </Td>
+                ))}
+            </tr>
+          ))}
       </tbody>
     </table>
   );
