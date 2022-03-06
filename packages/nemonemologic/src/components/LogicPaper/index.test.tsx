@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react';
-import LogicPaper from '.';
-import { CELL_STATE } from './type';
 import userEvent from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
+import { getStateFromAlt } from './util';
+import { CELL_STATE } from './type';
+import LogicPaper from '.';
 
 export const testFillState = (container: HTMLElement) => {
   expect(container.getElementsByClassName('blank').length).toBe(0);
@@ -41,12 +42,23 @@ describe('로직 페이퍼 렌더링', () => {
 });
 
 describe('로직 페이퍼 클릭 처리', () => {
-  describe('fill 일 때', () => {
-    let firstCell: HTMLElement;
+  let firstCell: HTMLElement;
+  let restCells: HTMLElement[];
+  let cellStates: CELL_STATE[];
 
+  beforeEach(() => {
+    render(<LogicPaper rowLength={3} colLength={3} />);
+    [firstCell, ...restCells] = screen.getAllByRole('button');
+    cellStates = getStateFromAlt(restCells);
+  });
+
+  afterEach(()=>{
+    const [_, ...restCells] = screen.getAllByRole('button');
+    expect(getStateFromAlt(restCells)).toEqual(cellStates);
+  });
+
+  describe('fill 일 때', () => {
     beforeEach(() => {
-      render(<LogicPaper rowLength={3} colLength={3} />);
-      firstCell = screen.getAllByRole('button')[0];
       userEvent.click(firstCell);
       testFillState(firstCell);
     });
@@ -58,16 +70,13 @@ describe('로직 페이퍼 클릭 처리', () => {
 
     test('우클릭 처리', () => {
       userEvent.click(firstCell, { button: 2 });
+      userEvent.click(restCells[3], { button: 2 });
       testNothingState(firstCell);
     });
   });
 
   describe('blank 일 때', () => {
-    let firstCell: HTMLElement;
-
     beforeEach(() => {
-      render(<LogicPaper rowLength={3} colLength={3} />);
-      firstCell = screen.getAllByRole('button')[0];
       testBlankstate(firstCell);
     });
 
@@ -83,11 +92,7 @@ describe('로직 페이퍼 클릭 처리', () => {
   });
 
   describe('nothing 일 때', () => {
-    let firstCell: HTMLElement;
-
     beforeEach(() => {
-      render(<LogicPaper rowLength={3} colLength={3} />);
-      firstCell = screen.getAllByRole('button')[0];
       userEvent.click(firstCell, { button: 2 });
       testNothingState(firstCell);
     });
@@ -103,3 +108,4 @@ describe('로직 페이퍼 클릭 처리', () => {
     });
   });
 });
+
