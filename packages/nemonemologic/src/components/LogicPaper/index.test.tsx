@@ -3,24 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { getStateFromAlt } from './util';
 import { CELL_STATE } from './type';
 import LogicPaper from '.';
-
-export const testFillState = (container: HTMLElement) => {
-  expect(container.getElementsByClassName('blank').length).toBe(0);
-  expect(container.getElementsByTagName('img')[0]).toHaveAttribute('alt', 'fill');
-  expect(container.getElementsByTagName('img')[0]).not.toHaveAttribute('alt', 'nothing');
-};
-
-export const testBlankstate = (container: HTMLElement) => {
-  expect(container.getElementsByClassName('blank').length).toBe(1);
-  expect(container.getElementsByTagName('img').length).toBe(0);
-  expect(container.getElementsByTagName('img').length).toBe(0);
-};
-
-export const testNothingState = (container: HTMLElement) => {
-  expect(container.getElementsByClassName('blank').length).toBe(0);
-  expect(container.getElementsByTagName('img')[0]).not.toHaveAttribute('alt', 'fill');
-  expect(container.getElementsByTagName('img')[0]).toHaveAttribute('alt', 'nothing');
-};
+import { testBlankstate, testFillState, testNothingState } from './testUtil';
 
 describe('로직 페이퍼 렌더링', () => {
   test('솔루션 2차원 배열의 행, 열만큼 로직 페이퍼 렌더링.', () => {
@@ -47,12 +30,13 @@ describe('로직 페이퍼 클릭 처리', () => {
   let cellStates: CELL_STATE[];
 
   beforeEach(() => {
+    // eslint-disable-next-line testing-library/no-render-in-setup
     render(<LogicPaper rowLength={3} colLength={3} />);
     [firstCell, ...restCells] = screen.getAllByRole('button');
     cellStates = getStateFromAlt(restCells);
   });
 
-  afterEach(()=>{
+  afterEach(() => {
     const [_, ...restCells] = screen.getAllByRole('button');
     expect(getStateFromAlt(restCells)).toEqual(cellStates);
   });
@@ -70,7 +54,6 @@ describe('로직 페이퍼 클릭 처리', () => {
 
     test('우클릭 처리', () => {
       userEvent.click(firstCell, { button: 2 });
-      userEvent.click(restCells[3], { button: 2 });
       testNothingState(firstCell);
     });
   });
@@ -108,4 +91,3 @@ describe('로직 페이퍼 클릭 처리', () => {
     });
   });
 });
-

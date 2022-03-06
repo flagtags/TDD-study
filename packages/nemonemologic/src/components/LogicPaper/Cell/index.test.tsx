@@ -1,6 +1,6 @@
 import { CELL_STATE } from '../type';
 import { render, screen } from '@testing-library/react';
-import { testFillState, testBlankstate, testNothingState} from '../../LogicPaper/index.test';
+import { testFillState, testBlankstate, testNothingState } from '../testUtil';
 import userEvent from '@testing-library/user-event';
 import Cell from './index';
 
