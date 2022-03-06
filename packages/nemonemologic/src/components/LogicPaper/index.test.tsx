@@ -1,22 +1,24 @@
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { getStateFromAlt } from './util';
-import { CELL_STATE } from './type';
+import { CELL_SOLUTION_STATE, CELL_STATE } from './type';
 import LogicPaper from '.';
 import { testBlankstate, testFillState, testNothingState } from './testUtil';
+import getHints from './getHints';
 
 describe('로직 페이퍼 렌더링', () => {
   test('솔루션 2차원 배열의 행, 열만큼 로직 페이퍼 렌더링.', () => {
     const solution = [
-      [CELL_STATE.FILL, CELL_STATE.FILL, CELL_STATE.FILL],
-      [CELL_STATE.FILL, CELL_STATE.FILL, CELL_STATE.FILL],
-      [CELL_STATE.FILL, CELL_STATE.FILL, CELL_STATE.FILL],
+      [CELL_SOLUTION_STATE.FILL, CELL_SOLUTION_STATE.FILL, CELL_SOLUTION_STATE.FILL],
+      [CELL_SOLUTION_STATE.FILL, CELL_SOLUTION_STATE.FILL, CELL_SOLUTION_STATE.FILL],
+      [CELL_SOLUTION_STATE.FILL, CELL_SOLUTION_STATE.FILL, CELL_SOLUTION_STATE.FILL],
     ];
 
     const rowLength = solution.length;
     const colLength = solution[0].length;
+    const hints = getHints(solution);
 
-    render(<LogicPaper rowLength={rowLength} colLength={colLength} />);
+    render(<LogicPaper rowLength={rowLength} colLength={colLength} hints={hints} />);
 
     expect(screen.getAllByRole('row')).toHaveLength(rowLength);
     expect(screen.getAllByRole('cell')).toHaveLength(rowLength * colLength);
@@ -30,8 +32,14 @@ describe('로직 페이퍼 클릭 처리', () => {
   let cellStates: CELL_STATE[];
 
   beforeEach(() => {
+    const solution = [
+      [CELL_SOLUTION_STATE.FILL, CELL_SOLUTION_STATE.FILL, CELL_SOLUTION_STATE.FILL],
+      [CELL_SOLUTION_STATE.FILL, CELL_SOLUTION_STATE.FILL, CELL_SOLUTION_STATE.FILL],
+      [CELL_SOLUTION_STATE.FILL, CELL_SOLUTION_STATE.FILL, CELL_SOLUTION_STATE.FILL],
+    ];
+    const hints = getHints(solution);
     // eslint-disable-next-line testing-library/no-render-in-setup
-    render(<LogicPaper rowLength={3} colLength={3} />);
+    render(<LogicPaper rowLength={3} colLength={3} hints={hints} />);
     [firstCell, ...restCells] = screen.getAllByRole('button');
     cellStates = getStateFromAlt(restCells);
   });

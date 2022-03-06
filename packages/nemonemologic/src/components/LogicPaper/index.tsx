@@ -2,7 +2,8 @@ import React, { useReducer } from 'react';
 import _ from 'lodash';
 import styled from 'styled-components';
 import Cell from './Cell';
-import { CELL_STATE } from './type';
+import { CELL_STATE, IHint } from './type';
+import HintCell from './Hints/HintCell';
 
 const Td = styled.td`
   height: 30px;
@@ -12,7 +13,15 @@ const Td = styled.td`
   vertical-align: middle;
 `;
 
-export default function LogicPaper({ rowLength, colLength }: { rowLength: number; colLength: number }) {
+export default function LogicPaper({
+  rowLength,
+  colLength,
+  hints,
+}: {
+  rowLength: number;
+  colLength: number;
+  hints: IHint;
+}) {
   const cellStateReducer = (state: CELL_STATE[][], action: any): any => {
     const tempCellStates = _.cloneDeep(state);
 
@@ -57,10 +66,17 @@ export default function LogicPaper({ rowLength, colLength }: { rowLength: number
   return (
     <table>
       <tbody>
+        <tr>
+          <th />
+          {hints.column.map((colHints: number[]) => (
+            <HintCell direction="column" role="column-hint" hints={colHints} />
+          ))}
+        </tr>
         {Array(rowLength)
           .fill(0)
           .map((_, rowIndex) => (
             <tr key={rowIndex}>
+              <HintCell direction="row" role="row-hint" hints={hints.row[rowIndex]} />
               {Array(colLength)
                 .fill(0)
                 .map((_, colIndex) => (

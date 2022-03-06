@@ -6,6 +6,7 @@ import Header from './components/Header';
 import getLogic from './api/getLogic';
 import './App.css';
 import LogicPaper from './components/LogicPaper';
+import getHints from './components/LogicPaper/getHints';
 
 const Container = styled.div`
   display: flex;
@@ -14,11 +15,12 @@ const Container = styled.div`
 
 function App() {
   const logic = getLogic();
+  const hints = getHints(logic.solution);
 
   return (
     <Container className="nemonemologic">
       <Header title={logic.title} />
-      <LogicPaper rowLength={10} colLength={10} />
+      <LogicPaper rowLength={10} colLength={10} hints={hints} />
       {/* <Cell state={CELL_STATE.FILL} />
       <Cell state={CELL_STATE.BLANK} />
       <Cell state={CELL_STATE.NOTHING} /> */}
