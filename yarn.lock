@@ -2313,6 +2313,14 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
+"@types/jest-in-case@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@types/jest-in-case/-/jest-in-case-1.0.5.tgz#28fd91232a212ad60209b8810484e046fe6ea637"
+  integrity sha512-QcIc5IqSVfpl+9jFl4/LlZnAPDNYUfLD+VrvtrK/cOx2CbS7K+FoXGIajiaY3gpFAkBiHGV2PThuWrmaRFE/Tg==
+  dependencies:
+    "@types/jest" "*"
+    "@types/node" "*"
+
 "@types/jest@*", "@types/jest@^27.4.0":
   version "27.4.0"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-27.4.0.tgz#037ab8b872067cae842a320841693080f9cb84ed"
@@ -6260,6 +6268,11 @@ jest-haste-map@^27.5.1:
     walker "^1.0.7"
   optionalDependencies:
     fsevents "^2.3.2"
+
+jest-in-case@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/jest-in-case/-/jest-in-case-1.0.2.tgz#56744b5af33222bd0abab70cf919f1d170ab75cc"
+  integrity sha1-VnRLWvMyIr0KurcM+Rnx0XCrdcw=
 
 jest-jasmine2@^27.4.6:
   version "27.4.6"
