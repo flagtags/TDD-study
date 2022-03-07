@@ -30,7 +30,7 @@ describe('Cell 컴포넌트 이벤트 핸들러 ', () => {
 
     render(<Cell state={CELL_STATE.FILL} onContextMenu={onContextMenu} onClick={() => {}} />);
 
-    const button = screen.getByRole('button');
+    const button = screen.getByRole('cell_button');
     userEvent.click(button, { button: 2 });
 
     expect(onContextMenu).toHaveBeenCalledTimes(1);
@@ -41,7 +41,7 @@ describe('Cell 컴포넌트 이벤트 핸들러 ', () => {
 
     render(<Cell state={CELL_STATE.FILL} onContextMenu={() => {}} onClick={onClick} />);
 
-    const button = screen.getByRole('button');
+    const button = screen.getByRole('cell_button');
     userEvent.click(button);
 
     expect(onClick).toHaveBeenCalledTimes(1);

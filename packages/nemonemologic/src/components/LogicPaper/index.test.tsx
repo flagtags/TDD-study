@@ -40,12 +40,12 @@ describe('로직 페이퍼 클릭 처리', () => {
     const hints = getHints(solution);
     // eslint-disable-next-line testing-library/no-render-in-setup
     render(<LogicPaper rowLength={3} colLength={3} hints={hints} />);
-    [firstCell, ...restCells] = screen.getAllByRole('button');
+    [firstCell, ...restCells] = screen.getAllByRole('cell_button');
     cellStates = getStateFromAlt(restCells);
   });
 
   afterEach(() => {
-    const [_, ...restCells] = screen.getAllByRole('button');
+    const [_, ...restCells] = screen.getAllByRole('cell_button');
     expect(getStateFromAlt(restCells)).toEqual(cellStates);
   });
 

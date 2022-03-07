@@ -43,7 +43,7 @@ export default function Cell({
   };
 
   return (
-    <Button className={'cell_button'} onClick={onClick} onContextMenu={onContextMenu}>
+    <Button role={'cell_button'} className={'cell_button'} onClick={onClick} onContextMenu={onContextMenu}>
       {CellImage[state]}
     </Button>
   );

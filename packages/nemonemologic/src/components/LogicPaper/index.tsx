@@ -66,10 +66,10 @@ export default function LogicPaper({
   return (
     <table>
       <tbody>
-        <tr>
+        <tr role={'column-hint-row'}>
           <th />
-          {hints.column.map((colHints: number[]) => (
-            <HintCell direction="column" role="column-hint" hints={colHints} />
+          {hints.column.map((colHints: number[], columnIndex) => (
+            <HintCell key={columnIndex} direction="column" role="column-hint" hints={colHints} />
           ))}
         </tr>
         {Array(rowLength)
