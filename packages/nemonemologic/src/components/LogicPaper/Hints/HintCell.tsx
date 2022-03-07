@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { IFlexDirection } from '../type';
+import HintNumberButton from './HintNumberButton';
 
 const Th = styled.th`
   background-color: lightgrey;
@@ -12,19 +13,14 @@ const Div = styled.div`
   justify-content: end;
 `;
 
-const Button = styled.button`
-  font-size: 1.8 rem;
-  margin: 2.5px;
-`;
-
 const HintCell = ({ direction, hints, role }: { direction: IFlexDirection; hints: number[]; role: string }) => {
   const verticalAlign = direction === 'row' ? 'middle' : 'bottom';
 
   return (
     <Th role={role} style={{ verticalAlign }}>
       <Div style={{ flexDirection: direction }}>
-        {hints.map((hint: number) => (
-          <Button>{hint}</Button>
+        {hints.map((hint: number, index) => (
+          <HintNumberButton hint={hint}/>
         ))}
       </Div>
     </Th>

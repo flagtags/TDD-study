@@ -99,3 +99,45 @@ describe('로직 페이퍼 클릭 처리', () => {
     });
   });
 });
+
+describe('힌트 숫자를 클릭하면 삭선처리', () => {
+  let firstHintNumber: HTMLElement;
+  let restHintNumbers: HTMLElement[];
+
+  beforeEach(() => {
+    const solution = [
+      [CELL_SOLUTION_STATE.FILL, CELL_SOLUTION_STATE.BLANK, CELL_SOLUTION_STATE.FILL],
+      [CELL_SOLUTION_STATE.BLANK, CELL_SOLUTION_STATE.FILL, CELL_SOLUTION_STATE.BLANK],
+      [CELL_SOLUTION_STATE.FILL, CELL_SOLUTION_STATE.BLANK, CELL_SOLUTION_STATE.FILL],
+    ];
+
+    const hints = getHints(solution);
+    // eslint-disable-next-line testing-library/no-render-in-setup
+    render(<LogicPaper rowLength={3} colLength={3} hints={hints} />);
+
+    [firstHintNumber, ...restHintNumbers] = screen.getAllByRole('hint_button');
+
+    expect(firstHintNumber).not.toHaveStyle({ 'text-decoration': 'line-through', 'color': 'blue' });
+    restHintNumbers.forEach((restHintNumber)=>{
+      expect(restHintNumber).not.toHaveStyle({ 'text-decoration': 'line-through', 'color': 'blue' });
+    })
+  });
+
+  test('클릭 처리', () => {
+    userEvent.click(firstHintNumber);
+    expect(firstHintNumber).toHaveStyle({ 'text-decoration': 'line-through', 'color': 'blue' });
+    restHintNumbers.forEach((restHintNumber)=>{
+      expect(restHintNumber).not.toHaveStyle({ 'text-decoration': 'line-through', 'color': 'blue' });
+    })
+  });
+
+  test('클릭 두 번 처리', () => {
+    userEvent.click(firstHintNumber);
+    userEvent.click(firstHintNumber);
+    expect(firstHintNumber).not.toHaveStyle({ 'text-decoration': 'line-through', 'color': 'blue' });
+    restHintNumbers.forEach((restHintNumber)=>{
+      expect(restHintNumber).not.toHaveStyle({ 'text-decoration': 'line-through', 'color': 'blue' });
+    })
+  });
+
+});
