@@ -8,28 +8,28 @@ import userEvent from '@testing-library/user-event';
 import HintCell from './HintCell';
 
 const testCases = {
-  'empty': {
+  empty: {
     solution: [
       [0, 0, 0],
       [0, 0, 0],
       [0, 0, 0],
     ],
   },
-  'filled': {
+  filled: {
     solution: [
       [0, 0, 0],
       [0, 0, 0],
       [0, 0, 0],
     ],
   },
-  'sparse': {
+  sparse: {
     solution: [
       [0, 0, 0],
       [0, 0, 0],
       [0, 0, 0],
     ],
   },
-  'car': {
+  car: {
     solution: [
       [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
       [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
@@ -46,27 +46,31 @@ const testCases = {
 };
 
 describe('힌트가 힌트 영역에 알맞게 표시된다.', () => {
-  cases('여러가지 케이스', ({ solution }) => {
-    const hints = getHints(solution);
+  cases(
+    '여러가지 케이스',
+    ({ solution }) => {
+      const hints = getHints(solution);
 
-    render(<LogicPaper rowLength={solution.length} colLength={solution[0].length} hints={hints} />);
+      render(<LogicPaper rowLength={solution.length} colLength={solution[0].length} hints={hints} />);
 
-    // row hints
-    const logicPaperRowHints = screen.getAllByRole('row-hint').map((rowHint: HTMLElement) =>
-      within(rowHint)
-        .queryAllByText(/(\d+)/)
-        .map((hint: HTMLElement) => +(hint.textContent || hint.innerText)),
-    );
+      // row hints
+      const logicPaperRowHints = screen.getAllByRole('row-hint').map((rowHint: HTMLElement) =>
+        within(rowHint)
+          .queryAllByText(/(\d+)/)
+          .map((hint: HTMLElement) => +(hint.textContent || hint.innerText)),
+      );
 
-    expect(logicPaperRowHints).toEqual(hints.row);
+      expect(logicPaperRowHints).toEqual(hints.row);
 
-    // col hints
-    const logicPaperColumnHints = screen.getAllByRole('column-hint').map((columnHint: HTMLElement) =>
-      within(columnHint)
-        .queryAllByText(/\d+/)
-        .map((hint: HTMLElement) => +(hint.textContent || hint.innerText)),
-    );
+      // col hints
+      const logicPaperColumnHints = screen.getAllByRole('column-hint').map((columnHint: HTMLElement) =>
+        within(columnHint)
+          .queryAllByText(/\d+/)
+          .map((hint: HTMLElement) => +(hint.textContent || hint.innerText)),
+      );
 
-    expect(logicPaperColumnHints).toEqual(hints.column);
-  }, testCases);
+      expect(logicPaperColumnHints).toEqual(hints.column);
+    },
+    testCases,
+  );
 });

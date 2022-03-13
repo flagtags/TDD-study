@@ -27,10 +27,14 @@ export default function Cell({
   state,
   onClick,
   onContextMenu,
+  rowIndex,
+  columnIndex,
 }: {
   state: CELL_STATE;
   onClick: () => void;
   onContextMenu: (e: React.MouseEvent) => void;
+  rowIndex: number;
+  columnIndex: number;
 }) {
   const FilledImage = <Image alt={'fill'} src={'/square.png'} />;
   const BlankImage = <Blank className={'blank'} />;
@@ -43,7 +47,14 @@ export default function Cell({
   };
 
   return (
-    <Button role={'cell_button'} className={'cell_button'} onClick={onClick} onContextMenu={onContextMenu}>
+    <Button
+      data-test-row-id={rowIndex}
+      data-test-column-id={columnIndex}
+      role={'cell_button'}
+      className={'cell_button'}
+      onClick={onClick}
+      onContextMenu={onContextMenu}
+    >
       {CellImage[state]}
     </Button>
   );

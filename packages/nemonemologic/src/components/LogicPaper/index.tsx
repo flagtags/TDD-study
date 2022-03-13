@@ -1,9 +1,10 @@
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import _ from 'lodash';
 import styled from 'styled-components';
 import Cell from './Cell';
-import { CELL_STATE, IHint } from './type';
+import { CELL_SOLUTION_STATE, CELL_STATE, IHint } from './type';
 import HintCell from './Hints/HintCell';
+import getHints from './getHints';
 
 const Td = styled.td`
   height: 30px;
@@ -16,11 +17,11 @@ const Td = styled.td`
 export default function LogicPaper({
   rowLength,
   colLength,
-  hints,
+  solution,
 }: {
   rowLength: number;
   colLength: number;
-  hints: IHint;
+  solution: number[][];
 }) {
   const cellStateReducer = (state: CELL_STATE[][], action: any): any => {
     const tempCellStates = _.cloneDeep(state);
@@ -38,7 +39,7 @@ export default function LogicPaper({
     }
   };
 
-  const [cellStates, dispatch] = useReducer(
+  const [answerCellStates, dispatch] = useReducer(
     cellStateReducer,
     Array(rowLength)
       .fill(0)
@@ -46,17 +47,34 @@ export default function LogicPaper({
   );
 
   const onClick = (rowIndex: number, colIndex: number) => {
-    if (cellStates[rowIndex][colIndex] === CELL_STATE.FILL) {
+    if (answerCellStates[rowIndex][colIndex] === CELL_STATE.FILL) {
       dispatch({ toBe: 'blank', rowIndex, colIndex });
     } else {
       dispatch({ toBe: 'fill', rowIndex, colIndex });
     }
   };
 
+  const hints = getHints(solution);
+
+  useEffect(() => {
+    const checkAnswer = (answer: CELL_STATE[][]) => {
+      return answer.every((row: CELL_STATE[], rowIndex: number) => {
+        return row.every((answerCell: CELL_STATE, columnIndex: number) => {
+          if (answerCell !== CELL_STATE.FILL) return true;
+          return answerCell === solution[rowIndex][columnIndex];
+        });
+      });
+    };
+
+    if (checkAnswer(answerCellStates)) {
+      window.alert('정답입니다!');
+    }
+  }, [answerCellStates, solution]);
+
   const onContextMenu = (e: React.MouseEvent, rowIndex: number, colIndex: number) => {
     e.preventDefault();
 
-    if (cellStates[rowIndex][colIndex] === CELL_STATE.NOTHING) {
+    if (answerCellStates[rowIndex][colIndex] === CELL_STATE.NOTHING) {
       dispatch({ toBe: 'blank', rowIndex, colIndex });
     } else {
       dispatch({ toBe: 'nothing', rowIndex, colIndex });
@@ -79,12 +97,14 @@ export default function LogicPaper({
               <HintCell direction="row" role="row-hint" hints={hints.row[rowIndex]} />
               {Array(colLength)
                 .fill(0)
-                .map((_, colIndex) => (
-                  <Td key={colIndex}>
+                .map((_, columnIndex) => (
+                  <Td key={columnIndex}>
                     <Cell
-                      state={cellStates[rowIndex][colIndex]}
-                      onClick={() => onClick(rowIndex, colIndex)}
-                      onContextMenu={(e: React.MouseEvent) => onContextMenu(e, rowIndex, colIndex)}
+                      rowIndex={rowIndex}
+                      columnIndex={columnIndex}
+                      state={answerCellStates[rowIndex][columnIndex]}
+                      onClick={() => onClick(rowIndex, columnIndex)}
+                      onContextMenu={(e: React.MouseEvent) => onContextMenu(e, rowIndex, columnIndex)}
                     />
                   </Td>
                 ))}
