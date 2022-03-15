@@ -209,7 +209,8 @@ describe('클릭 시 정답 반응 처리', () => {
       solution: CELL_SOLUTION_STATE[][];
       clicks: { coordinate: number[]; buttonType: string }[];
     }) => {
-      const alertMock = jest.spyOn(window, 'alert').mockImplementation();
+      window.alert = jest.fn()
+
       render(<LogicPaper rowLength={3} colLength={3} solution={solution} />);
 
       clicks.map(({ coordinate: [row, column], buttonType }) => {
@@ -217,7 +218,7 @@ describe('클릭 시 정답 반응 처리', () => {
         userEvent.click(clickedButton, { button: buttonType === 'left' ? 0 : 2 });
       });
 
-      expect(alertMock).toHaveBeenCalledTimes(1);
+      expect(window.alert).toBeCalledWith('정답입니다!');
     },
     testCases,
   );

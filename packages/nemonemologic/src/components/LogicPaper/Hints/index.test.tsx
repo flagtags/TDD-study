@@ -50,8 +50,8 @@ describe('힌트가 힌트 영역에 알맞게 표시된다.', () => {
     '여러가지 케이스',
     ({ solution }) => {
       const hints = getHints(solution);
-
-      render(<LogicPaper rowLength={solution.length} colLength={solution[0].length} hints={hints} />);
+      window.alert = jest.fn()
+      render(<LogicPaper rowLength={solution.length} colLength={solution[0].length} solution={solution} />);
 
       // row hints
       const logicPaperRowHints = screen.getAllByRole('row-hint').map((rowHint: HTMLElement) =>
