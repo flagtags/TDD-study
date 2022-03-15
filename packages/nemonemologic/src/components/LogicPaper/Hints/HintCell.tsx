@@ -18,9 +18,9 @@ const HintCell = ({ direction, hints, role }: { direction: IFlexDirection; hints
 
   return (
     <Th role={role} style={{ verticalAlign }}>
-      <Div style={{ flexDirection: direction }}>
+      <Div  style={{ flexDirection: direction }}>
         {hints.map((hint: number, index) => (
-          <HintNumberButton hint={hint}/>
+          <HintNumberButton key={index} hint={hint}/>
         ))}
       </Div>
     </Th>
